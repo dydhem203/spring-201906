@@ -2,7 +2,6 @@ package kr.ro.kitri.hellospring.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +45,7 @@ public class UserController{
 	// 사용자 등록
 	@PostMapping("users")
 	public User registUser(@RequestBody User user) {
-		return user;
+		return userService.registUser(user);
 	}
 	
 	// 사용자 수정

@@ -1,14 +1,21 @@
 package kr.ro.kitri.hellospring.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import kr.ro.kitri.hellospring.model.User;
 
 @Repository
 public class UserDao {
+	@Autowired
+	private JdbcTemplate jdbcTemplate; 
 	
 	public List<User> selectAllUsers() {
 		List<User> listOfUser = new ArrayList<User>();
@@ -21,7 +28,19 @@ public class UserDao {
 	}
 	
 	public User selectUserByKey(Integer userId) {
-		User user = new User(userId, "김순곤", 40);
+		String sql = "select * from user where userid = ?";
+		User user = jdbcTemplate.queryForObject(sql, new RowMapper<User>(){
+			@Override
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return new User(rs.getInt(1), rs.getString(2), rs.getInt(3));
+			}
+		}, userId);
+		return user;
+	}
+
+	public User insertUser(User user) {
+		String sql = "INSERT INTO spring.user(userid, username, age) VALUES (?, ?, ?)";
+		jdbcTemplate.update(sql, user.getUserid(), user.getUsername(), user.getAge());
 		return user;
 	}
 }
