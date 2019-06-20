@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.ro.kitri.hellospring.dao.UserDao;
 import kr.ro.kitri.hellospring.model.User;
@@ -21,7 +22,8 @@ public class UserServiceImpl implements UserService{
 	public User searchUserByUserid(Integer userId) {
 		return userDao.selectUserByKey(userId);
 	}
-
+	
+	@Transactional
 	public User registUser(User user) {
 		return userDao.insertUser(user);
 	}
