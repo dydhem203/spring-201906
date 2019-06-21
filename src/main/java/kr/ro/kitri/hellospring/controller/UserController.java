@@ -41,14 +41,21 @@ public class UserController{
 	}
 	
 	// 사용자 상세보기
-	@GetMapping("/users/{userId}")
-	public User getUsersById(@PathVariable Integer userId) {
-		System.out.println(userId + "... from path variable");
-		return userService.searchUserByUserid(userId);
+//	@GetMapping("/users/{userId}")
+//	public User getUsersById(@PathVariable Integer userId) {
+//		System.out.println(userId + "... from path variable");
+//		return userService.searchUserByUserid(userId);
+//	}
+	
+	// 이름으로 사용자 조회
+	@GetMapping("/users/{username}")
+	public List<User> getUsersByUsername(@PathVariable String username) {
+		System.out.println(username + "... from path variable");
+		return userService.searchUserByUsername(username);
 	}
 	
 	// 사용자 등록
-	@PostMapping("users")
+	@PostMapping("/users")
 	public User registUser(@RequestBody User user) {
 		log.debug("사용자 등록 시작");
 		return userService.registUser(user);
